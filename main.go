@@ -89,8 +89,8 @@ func buildFileName(imageURI string) string {
 }
 
 func createFile(imageURI string) *os.File {
-	fileName := buildFileName(imageURI)
-	file, err := os.Create(fileName)
+	imageFileName := buildFileName(imageURI)
+	file, err := os.Create(imageFileName)
 	if err != nil {
 		log.Fatal(err)
 	}
