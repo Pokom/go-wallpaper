@@ -1,5 +1,7 @@
 on run argv
-    tell application "Finder"
-        set desktop picture to POSIX file "/Users/poko/Pictures/thomas-pollock-anshutz-1880_the-ironworkers-noontime.jpg" 
+    tell application "System Events"
+        tell every desktop
+            set picture to item 1 of argv
+        end tell
     end tell
 end run
