@@ -103,10 +103,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("response: %v\n", featured)
+	// TODO: Inject prefix for where to store image
 	file := createFile(featured.ImageURI)
 	err = DownloadImage(file, featured.ImageURI)
 	if err != nil {
 		log.Fatal(err)
 	}
+	// TODO: Execute osascript to set the downloaded image as the background
 }
