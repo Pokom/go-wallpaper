@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -73,7 +74,7 @@ func DownloadImage(file *os.File, imageURI string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Downloaded image=%s is %d", imageURI, size)
+	fmt.Printf("Downloaded image=%s is %d bytes\n", imageURI, size)
 	return nil
 }
 
@@ -88,9 +89,8 @@ func buildFileName(imageURI string) string {
 	return segment[len(segment)-1]
 }
 
-func createFile(imageURI string) *os.File {
-	imageFileName := buildFileName(imageURI)
-	file, err := os.Create(imageFileName)
+func createFile(filename string) *os.File {
+	file, err := os.Create(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -98,16 +98,23 @@ func createFile(imageURI string) *os.File {
 }
 
 func main() {
+	// TODO: convert to reading from config file
+	pictureDir := os.Getenv("PICTURE_DIR")
+	if len(pictureDir) == 0 {
+		log.Fatal("PICTURE_DIR Needs to be set")
+	}
 	muzeiClient := NewMuzeiClient()
 	featured, err := muzeiClient.GetFeatured()
 	if err != nil {
 		log.Fatal(err)
 	}
-	// TODO: Inject prefix for where to store image
-	file := createFile(featured.ImageURI)
+	imageFileName := buildFileName(featured.ImageURI)
+	fileName := filepath.Join(pictureDir, imageFileName)
+	file := createFile(fileName)
 	err = DownloadImage(file, featured.ImageURI)
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Printf("Wrote out image to: %s\n", fileName)
 	// TODO: Execute osascript to set the downloaded image as the background
 }
