@@ -44,7 +44,7 @@ var itermCmd = &cobra.Command{
 		imageFileName := providers.BuildFileName(featured.ImageURI)
 		fileName := filepath.Join(pictureDir, imageFileName)
 		file := providers.CreateFile(fileName)
-		err = providers.DownloadImage(file, featured.ImageURI)
+		err = muzeiClient.DownloadImage(file, featured.ImageURI)
 		if err != nil {
 			log.Fatal(err)
 		}

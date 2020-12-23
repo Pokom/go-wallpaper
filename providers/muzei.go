@@ -57,9 +57,9 @@ func (mc *MuzeiClient) GetFeatured() (*MuzeiResponse, error) {
 }
 
 // DownloadImage will fetch a given image
-func DownloadImage(file *os.File, imageURI string) error {
+func (mc *MuzeiClient) DownloadImage(file *os.File, imageURI string) error {
 	fmt.Printf("Fetching image: %s\n", imageURI)
-	resp, err := http.Get(imageURI)
+	resp, err := mc.Client.Get(imageURI)
 	defer resp.Body.Close()
 	if err != nil {
 		return err

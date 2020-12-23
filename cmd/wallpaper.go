@@ -28,13 +28,8 @@ import (
 // wallpaperCmd represents the wallpaper command
 var wallpaperCmd = &cobra.Command{
 	Use:   "wallpaper",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Update Wallpapers background image",
+	Long:  `Fetch the latest image from muzei and set desktop background image to use it.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		pictureDir := os.Getenv("PICTURE_DIR")
 		if len(pictureDir) == 0 {
@@ -48,7 +43,7 @@ to quickly create a Cobra application.`,
 		imageFileName := providers.BuildFileName(featured.ImageURI)
 		fileName := filepath.Join(pictureDir, imageFileName)
 		file := providers.CreateFile(fileName)
-		err = providers.DownloadImage(file, featured.ImageURI)
+		err = muzeiClient.DownloadImage(file, featured.ImageURI)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -59,7 +54,7 @@ to quickly create a Cobra application.`,
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("wallpaper called")
+		fmt.Println("wallpaper completed")
 	},
 }
 

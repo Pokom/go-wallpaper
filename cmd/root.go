@@ -17,8 +17,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
@@ -29,16 +30,10 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "iterm-muzei",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Short: "cli Muzei implementation. Dynamically set background image on iterm or wallpaper",
+	Long: `Muzei is an Android application that is intended to help explore pieces of artwork currently
+	hung up in museums. This app replicates some of Muzei's features by enabling the user to set the background image
+	of iterm or the desktop.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
