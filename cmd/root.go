@@ -29,7 +29,7 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "iterm-muzei",
+	Use:   "muzei",
 	Short: "cli Muzei implementation. Dynamically set background image on iterm or wallpaper",
 	Long: `Muzei is an Android application that is intended to help explore pieces of artwork currently
 	hung up in museums. This app replicates some of Muzei's features by enabling the user to set the background image

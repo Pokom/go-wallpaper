@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/pokom/iterm-muzei/cmd"
+import "github.com/pokom/go-muzei/cmd"
 
 func main() {
 	cmd.Execute()

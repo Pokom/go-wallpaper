@@ -21,7 +21,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/pokom/iterm-muzei/providers"
+	"github.com/pokom/go-muzei/providers"
 	"github.com/spf13/cobra"
 )
 

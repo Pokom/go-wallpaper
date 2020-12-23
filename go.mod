@@ -1,4 +1,4 @@
-module github.com/pokom/iterm-muzei
+module github.com/pokom/go-muzei
 
 go 1.15
 
