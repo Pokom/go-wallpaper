@@ -1,6 +1,6 @@
 # Go Muzei 
 
-![demo](https://gph.is/g/4ARAB17)
+![hippo](https://media.giphy.com/media/4Uozu2ndA9vZagiUxd/giphy.gif)
 
 [Muzei](https://github.com/romannurik/muzei) is an Android application that will periodically refreshes the users background to a famous artwork. The goal of this project is to replicate this for terminals and desktop backgrounds. 
 
