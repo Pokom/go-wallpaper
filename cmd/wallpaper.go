@@ -47,14 +47,20 @@ var wallpaperCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("Wrote out image to: %s\n", fileName)
-		command := exec.Command("bash", "set-desktop-img.sh", fileName)
-		command.Dir = "bin"
+
+		osascript := fmt.Sprintf(`
+tell application "System Events"
+	tell every desktop
+		set picture to "%s"
+	end tell
+end tell
+		`, fileName)
+
+		command := exec.Command("osascript", "-e", osascript)
 		_, err = command.Output()
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("wallpaper completed")
 	},
 }
 

@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -47,8 +48,15 @@ var itermCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		command := exec.Command("bash", "set-iterm-img.sh", fileName)
-		command.Dir = "bin"
+
+		itermBackgroundOsascript := fmt.Sprintf(`
+tell application "iTerm2"
+  tell current session of current window
+	set background image to "%s"
+  end tell
+end tell`, fileName)
+
+		command := exec.Command("osascript", "-e", itermBackgroundOsascript, fileName)
 		_, err = command.Output()
 		if err != nil {
 			log.Fatal(err)
@@ -63,14 +71,4 @@ var itermCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(itermCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// itermCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// itermCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
