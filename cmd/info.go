@@ -30,7 +30,7 @@ var infoCmd = &cobra.Command{
 	Long:  `Fetch info on the featured artwork and print it out.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		muzeiClient := providers.NewMuzeiClient()
-		featured, err := muzeiClient.GetFeatured()
+		featured, err := muzeiClient.GetLatestImage()
 		if err != nil {
 			log.Fatal(err)
 		}

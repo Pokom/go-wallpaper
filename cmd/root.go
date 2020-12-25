@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pokom/go-muzei/providers"
 	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -54,7 +55,10 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.iterm-muzei.yaml)")
 	rootCmd.PersistentFlags().String("provider", "muzei", "Provider to source artwork from. Defaults to muzei")
+	rootCmd.PersistentFlags().String("subreddit", providers.SUBREDDIT, fmt.Sprintf("Default subreddit. Default is %s", providers.SUBREDDIT))
+
 	viper.BindPFlag("provider", rootCmd.PersistentFlags().Lookup("provider"))
+	viper.BindPFlag("subreddit", rootCmd.PersistentFlags().Lookup("subreddit"))
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.

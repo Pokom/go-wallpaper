@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 	"log"
 	"os"
 	"os/exec"
@@ -35,15 +36,15 @@ var wallpaperCmd = &cobra.Command{
 		if len(pictureDir) == 0 {
 			log.Fatal("PICTURE_DIR Needs to be set")
 		}
-		muzeiClient := providers.NewMuzeiClient()
-		featured, err := muzeiClient.GetFeatured()
+		provider := providers.NewProvider(viper.GetString("provider"))
+		featured, err := provider.GetLatestImage()
 		if err != nil {
 			log.Fatal(err)
 		}
 		imageFileName := providers.BuildFileName(featured.ImageURI)
 		fileName := filepath.Join(pictureDir, imageFileName)
 		file := providers.CreateFile(fileName)
-		err = muzeiClient.DownloadImage(file, featured.ImageURI)
+		err = provider.DownloadImage(file, featured.ImageURI)
 		if err != nil {
 			log.Fatal(err)
 		}

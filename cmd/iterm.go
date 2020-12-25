@@ -38,9 +38,8 @@ var itermCmd = &cobra.Command{
 			log.Fatal("PICTURE_DIR Needs to be set")
 		}
 		provider := viper.GetString("provider")
-		fmt.Printf("provider=%s\n", provider)
 		client := providers.NewProvider(provider)
-		featured, err := client.GetFeatured()
+		featured, err := client.GetLatestImage()
 		if err != nil {
 			log.Fatal(err)
 		}

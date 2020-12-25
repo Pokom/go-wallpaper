@@ -16,8 +16,8 @@ import (
 const muzeiApi string = "https://muzeiapi.appspot.com/featured?cachebust=1"
 
 const MuzeiTemplate = `Title: {{.Title}}
-Byline: {{.Byline}}
-Details: {{.DetailsURI}}
+Image: {{.ImageURI}}
+Source: {{.Source}}
 `
 
 type MuzeiResponse struct {
@@ -62,6 +62,19 @@ func (mc *MuzeiClient) GetFeatured() (*MuzeiResponse, error) {
 	return &result, nil
 }
 
+func (mc *MuzeiClient) GetLatestImage() (*ImageResponse, error) {
+	resp, err := mc.GetFeatured()
+	if err != nil {
+		return nil, err
+	}
+	return &ImageResponse{
+		Title: resp.Title,
+		ImageURI: resp.ImageURI,
+		Source: resp.DetailsURI,
+	}, nil
+
+}
+
 // DownloadImage will fetch a given image
 func (mc *MuzeiClient) DownloadImage(file *os.File, imageURI string) error {
 	fmt.Printf("Fetching image: %s\n", imageURI)
@@ -83,28 +96,10 @@ func (mc *MuzeiClient) DownloadImage(file *os.File, imageURI string) error {
 	return nil
 }
 
-func (mc *MuzeiClient) PrintTempl(dst io.Writer, res *MuzeiResponse) error {
+func (mc *MuzeiClient) PrintTempl(dst io.Writer, res *ImageResponse) error {
 	tmpl := template.Must(template.New("artwork").Parse(MuzeiTemplate))
 	err := tmpl.Execute(dst, res)
 	return err
-}
-
-type Provider interface {
-	// TODO: Define interface
-	// TODO: Refactor GetFeatured of MuzeiClient
-	GetFeatured() (*MuzeiResponse, error)
-	DownloadImage(*os.File, string) error
-	PrintTempl(io.Writer, *MuzeiResponse) error
-}
-
-func NewProvider(provider string) Provider {
-	switch provider {
-	case "muzei":
-		return NewMuzeiClient()
-	default:
-		log.Fatal("not implemented")
-	}
-	return nil
 }
 
 func BuildFileName(imageURI string) string {

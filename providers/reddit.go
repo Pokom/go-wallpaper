@@ -3,14 +3,24 @@ package providers
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"text/template"
+
+	"github.com/spf13/viper"
 )
 
 const (
 	redditFmtStr = "https://www.reddit.com/r/%s/top.json?t=week&limit=10&raw_json=1"
-	subReddit    = "earthPorn"
+	SUBREDDIT    = "earthPorn"
 )
+
+const RedditTemplate = `Title: {{.Title}}
+Image: {{.ImageURI}}
+Subreddit: {{.Source}}
+`
 
 type RedditResponse struct {
 	Kind string `json:"kind"`
@@ -203,12 +213,11 @@ type RedditClient struct {
 func NewRedditClient() *RedditClient {
 	return &RedditClient{
 		Client:      http.Client{},
-		SubReddit:   subReddit,
 		UrlTemplate: redditFmtStr,
 	}
 }
 
-func (rc *RedditClient) GetTopPost(subReddit string) (*RedditResponse, error) {
+func (rc *RedditClient) GetTopPosts(subReddit string) (*RedditResponse, error) {
 	url := fmt.Sprintf(rc.UrlTemplate, subReddit)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -230,9 +239,48 @@ func (rc *RedditClient) GetTopPost(subReddit string) (*RedditResponse, error) {
 	return redditResponse, nil
 }
 
+func (rc *RedditClient) GetLatestImage() (*ImageResponse, error) {
+	// TODO: Change to viper persistent flag
+	posts, err := rc.GetTopPosts(viper.GetString("subreddit"))
+	if err != nil {
+		return nil, err
+	}
+	post := posts.Data.Children[0]
+	return &ImageResponse{
+		Title:    post.Data.Title,
+		ImageURI: post.Data.URL,
+		Source:   fmt.Sprintf("https://reddit.com%s", post.Data.Permalink),
+	}, nil
+}
+
+func (rc *RedditClient) DownloadImage(file *os.File, imageURI string) error {
+	req, err := http.NewRequest("GET", imageURI, nil)
+	if err != nil {
+		return err
+	}
+	resp, err := rc.Client.Do(req)
+	defer resp.Body.Close()
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("Error retrieving image=%s", imageURI)
+	}
+
+	size, err := io.Copy(file, resp.Body)
+	fmt.Printf("Image=%s is %s bytes", imageURI, size)
+	return nil
+}
+
+func (rc *RedditClient) PrintTempl(dst io.Writer, resp *ImageResponse) error {
+	tmpl := template.Must(template.New("reddit").Parse(RedditTemplate))
+	err := tmpl.Execute(dst, resp)
+	return err
+}
+
 func main() {
 	redditClient := NewRedditClient()
-	posts, err := redditClient.GetTopPost(subReddit)
+	posts, err := redditClient.GetTopPosts(SUBREDDIT)
 	if err != nil {
 		log.Fatal(err)
 	}

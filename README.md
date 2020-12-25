@@ -35,6 +35,6 @@ go build
 - [x] display info for current background image
 - [ ] open link to info page in system browser
 - [ ] multiple providers
-    - [ ] reddit
+    - [x] reddit
     - [ ] local images
     - [ ] bucket storage?
