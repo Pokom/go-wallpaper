@@ -56,9 +56,11 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.iterm-muzei.yaml)")
 	rootCmd.PersistentFlags().String("provider", "muzei", "Provider to source artwork from. Defaults to muzei")
 	rootCmd.PersistentFlags().String("subreddit", providers.SUBREDDIT, fmt.Sprintf("Default subreddit. Default is %s", providers.SUBREDDIT))
+	rootCmd.PersistentFlags().Bool("random", true, "Choose random from top ten of subreddit. If false, choses first. Defaults to true")
 
 	viper.BindPFlag("provider", rootCmd.PersistentFlags().Lookup("provider"))
 	viper.BindPFlag("subreddit", rootCmd.PersistentFlags().Lookup("subreddit"))
+	viper.BindPFlag("random", rootCmd.PersistentFlags().Lookup("random"))
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
