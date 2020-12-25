@@ -89,6 +89,24 @@ func (mc *MuzeiClient) PrintTempl(dst io.Writer, res *MuzeiResponse) error {
 	return err
 }
 
+type Provider interface {
+	// TODO: Define interface
+	// TODO: Refactor GetFeatured of MuzeiClient
+	GetFeatured() (*MuzeiResponse, error)
+	DownloadImage(*os.File, string) error
+	PrintTempl(io.Writer, *MuzeiResponse) error
+}
+
+func NewProvider(provider string) Provider {
+	switch provider {
+	case "muzei":
+		return NewMuzeiClient()
+	default:
+		log.Fatal("not implemented")
+	}
+	return nil
+}
+
 func BuildFileName(imageURI string) string {
 	url, err := url.Parse(imageURI)
 

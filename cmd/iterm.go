@@ -24,6 +24,7 @@ import (
 
 	"github.com/pokom/go-muzei/providers"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // itermCmd represents the iterm command
@@ -36,15 +37,17 @@ var itermCmd = &cobra.Command{
 		if len(pictureDir) == 0 {
 			log.Fatal("PICTURE_DIR Needs to be set")
 		}
-		muzeiClient := providers.NewMuzeiClient()
-		featured, err := muzeiClient.GetFeatured()
+		provider := viper.GetString("provider")
+		fmt.Printf("provider=%s\n", provider)
+		client := providers.NewProvider(provider)
+		featured, err := client.GetFeatured()
 		if err != nil {
 			log.Fatal(err)
 		}
 		imageFileName := providers.BuildFileName(featured.ImageURI)
 		fileName := filepath.Join(pictureDir, imageFileName)
 		file := providers.CreateFile(fileName)
-		err = muzeiClient.DownloadImage(file, featured.ImageURI)
+		err = client.DownloadImage(file, featured.ImageURI)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -62,7 +65,7 @@ end tell`, fileName)
 			log.Fatal(err)
 		}
 
-		err = muzeiClient.PrintTempl(os.Stdout, featured)
+		err = client.PrintTempl(os.Stdout, featured)
 		if err != nil {
 			log.Fatal(err)
 		}
