@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44b5ebb6-e4c1-4585-a347-2124e9d27235" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/providers/provider.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/info.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/info.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/iterm.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/iterm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/wallpaper.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/wallpaper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/providers/muzei.go" beforeDir="false" afterPath="$PROJECT_DIR$/providers/muzei.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/providers/reddit.go" beforeDir="false" afterPath="$PROJECT_DIR$/providers/reddit.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/root.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/root.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +39,23 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager">
+    <configuration name="go build github.com/pokom/go-muzei" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-muzei" />
+      <working_directory value="$PROJECT_DIR$" />
+      <parameters value="info" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <package value="github.com/pokom/go-muzei" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build github.com/pokom/go-muzei" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

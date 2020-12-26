@@ -21,7 +21,15 @@ import (
 
 	"github.com/pokom/go-muzei/providers"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
+
+type Featured struct {
+	Image    string `yaml:"image"`
+	Provider string `yaml:"provider"`
+	Source   string `yaml:"source"`
+	Title    string `yaml:"source"`
+}
 
 // infoCmd represents the info command
 var infoCmd = &cobra.Command{
@@ -29,12 +37,17 @@ var infoCmd = &cobra.Command{
 	Short: "Print info on featured artwork.",
 	Long:  `Fetch info on the featured artwork and print it out.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		muzeiClient := providers.NewMuzeiClient()
-		featured, err := muzeiClient.GetLatestImage()
+		var featured Featured
+		err := viper.UnmarshalKey("featured", &featured)
 		if err != nil {
 			log.Fatal(err)
 		}
-		err = muzeiClient.PrintTempl(os.Stdout, featured)
+
+		err = providers.PrintTempl(os.Stdout, &providers.ImageResponse{
+			ImageURI: featured.Image,
+			Source:   featured.Source,
+			Title:    featured.Title,
+		})
 		if err != nil {
 			log.Fatal(err)
 		}

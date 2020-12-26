@@ -16,11 +16,12 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/spf13/viper"
 
 	"github.com/pokom/go-muzei/providers"
 	"github.com/spf13/cobra"
@@ -36,15 +37,16 @@ var wallpaperCmd = &cobra.Command{
 		if len(pictureDir) == 0 {
 			log.Fatal("PICTURE_DIR Needs to be set")
 		}
-		provider := providers.NewProvider(viper.GetString("provider"))
-		featured, err := provider.GetLatestImage()
+		provider := viper.GetString("provider")
+		client := providers.NewProvider(provider)
+		featured, err := client.GetLatestImage()
 		if err != nil {
 			log.Fatal(err)
 		}
 		imageFileName := providers.BuildFileName(featured.ImageURI)
 		fileName := filepath.Join(pictureDir, imageFileName)
 		file := providers.CreateFile(fileName)
-		err = provider.DownloadImage(file, featured.ImageURI)
+		err = client.DownloadImage(file, featured.ImageURI)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -60,6 +62,10 @@ end tell
 		command := exec.Command("osascript", "-e", osascript)
 		_, err = command.Output()
 		if err != nil {
+			log.Fatal(err)
+		}
+
+		if err := providers.SaveFeatured(cmd.Name(), provider, featured); err != nil {
 			log.Fatal(err)
 		}
 	},

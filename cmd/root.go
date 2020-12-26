@@ -53,7 +53,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.iterm-muzei.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.go-muzei.yaml)")
 	rootCmd.PersistentFlags().String("provider", "muzei", "Provider to source artwork from. Defaults to muzei")
 	rootCmd.PersistentFlags().String("subreddit", providers.SUBREDDIT, fmt.Sprintf("Default subreddit. Default is %s", providers.SUBREDDIT))
 	rootCmd.PersistentFlags().Bool("random", true, "Choose random from top ten of subreddit. If false, choses first. Defaults to true")
@@ -80,9 +80,10 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		// Search config in home directory with name ".iterm-muzei" (without extension).
+		// Search config in home directory with name ".go-muzei" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".iterm-muzei")
+		viper.SetConfigName(".go-muzei")
+		viper.SetConfigType("yaml")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

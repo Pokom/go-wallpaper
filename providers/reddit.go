@@ -7,7 +7,6 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
-	"text/template"
 	"time"
 
 	"github.com/spf13/viper"
@@ -17,11 +16,6 @@ const (
 	redditFmtStr = "https://www.reddit.com/r/%s/top.json?t=week&limit=10&raw_json=1"
 	SUBREDDIT    = "earthPorn"
 )
-
-const RedditTemplate = `Title: {{.Title}}
-Image: {{.ImageURI}}
-Subreddit: {{.Source}}
-`
 
 type RedditResponse struct {
 	Kind string `json:"kind"`
@@ -278,10 +272,4 @@ func (rc *RedditClient) DownloadImage(file *os.File, imageURI string) error {
 	size, err := io.Copy(file, resp.Body)
 	fmt.Printf("Image=%s is %d bytes\n", imageURI, size)
 	return nil
-}
-
-func (rc *RedditClient) PrintTempl(dst io.Writer, resp *ImageResponse) error {
-	tmpl := template.Must(template.New("reddit").Parse(RedditTemplate))
-	err := tmpl.Execute(dst, resp)
-	return err
 }

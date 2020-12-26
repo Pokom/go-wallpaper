@@ -9,16 +9,10 @@ import (
 	"net/url"
 	"os"
 	"strings"
-	"text/template"
 	"time"
 )
 
 const muzeiApi string = "https://muzeiapi.appspot.com/featured?cachebust=1"
-
-const MuzeiTemplate = `Title: {{.Title}}
-Image: {{.ImageURI}}
-Source: {{.Source}}
-`
 
 type MuzeiResponse struct {
 	Attribution string    `json:"attribution"`
@@ -68,9 +62,9 @@ func (mc *MuzeiClient) GetLatestImage() (*ImageResponse, error) {
 		return nil, err
 	}
 	return &ImageResponse{
-		Title: resp.Title,
+		Title:    resp.Title,
 		ImageURI: resp.ImageURI,
-		Source: resp.DetailsURI,
+		Source:   resp.DetailsURI,
 	}, nil
 
 }
@@ -94,12 +88,6 @@ func (mc *MuzeiClient) DownloadImage(file *os.File, imageURI string) error {
 	}
 	fmt.Printf("Downloaded image=%s is %d bytes\n", imageURI, size)
 	return nil
-}
-
-func (mc *MuzeiClient) PrintTempl(dst io.Writer, res *ImageResponse) error {
-	tmpl := template.Must(template.New("artwork").Parse(MuzeiTemplate))
-	err := tmpl.Execute(dst, res)
-	return err
 }
 
 func BuildFileName(imageURI string) string {

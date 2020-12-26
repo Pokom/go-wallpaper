@@ -64,8 +64,12 @@ end tell`, fileName)
 			log.Fatal(err)
 		}
 
-		err = client.PrintTempl(os.Stdout, featured)
+		err = providers.PrintTempl(os.Stdout, featured)
 		if err != nil {
+			log.Fatal(err)
+		}
+
+		if err := providers.SaveFeatured(cmd.Name(), provider, featured); err != nil {
 			log.Fatal(err)
 		}
 	},
