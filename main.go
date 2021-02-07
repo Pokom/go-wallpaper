@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/pokom/go-muzei/cmd"
+import "github.com/pokom/go-wallpaper/cmd"
 
 func main() {
 	cmd.Execute()

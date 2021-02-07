@@ -19,7 +19,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/pokom/go-muzei/providers"
+	"github.com/pokom/go-wallpaper/providers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

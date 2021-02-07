@@ -1,4 +1,4 @@
-module github.com/pokom/go-muzei
+module github.com/pokom/go-wallpaper
 
 go 1.15
 

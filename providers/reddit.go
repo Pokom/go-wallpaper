@@ -219,12 +219,13 @@ func (rc *RedditClient) GetTopPosts(subReddit string) (*RedditResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "go-muzei")
+	req.Header.Set("User-Agent", "go-wallpaper")
 	resp, err := rc.Client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		return nil, err
 	}
+
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return nil, err
 	}
@@ -261,10 +262,11 @@ func (rc *RedditClient) DownloadImage(file *os.File, imageURI string) error {
 		return err
 	}
 	resp, err := rc.Client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		return err
 	}
+
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("Error retrieving image=%s", imageURI)
 	}

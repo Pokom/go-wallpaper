@@ -23,13 +23,13 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/pokom/go-muzei/providers"
+	"github.com/pokom/go-wallpaper/providers"
 	"github.com/spf13/cobra"
 )
 
-// wallpaperCmd represents the wallpaper command
-var wallpaperCmd = &cobra.Command{
-	Use:   "wallpaper",
+// desktopCmd represents the desktop command
+var desktopCmd = &cobra.Command{
+	Use:   "desktop",
 	Short: "Update Wallpapers background image",
 	Long:  `Fetch the latest image from muzei and set desktop background image to use it.`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -72,15 +72,15 @@ end tell
 }
 
 func init() {
-	rootCmd.AddCommand(wallpaperCmd)
+	rootCmd.AddCommand(desktopCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// wallpaperCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// desktopCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// wallpaperCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// desktopCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
